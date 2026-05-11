@@ -1,0 +1,427 @@
+direction: right
+
+users: {
+  id: int {pk}
+  username: varchar
+  password_hash: varchar
+  email: varchar
+  created_at: datetime
+  updated_at: datetime
+}
+
+roles: {
+  id: int {pk}
+  name: varchar
+}
+
+permissions: {
+  id: int {pk}
+  name: varchar
+}
+
+role_permissions: {
+  role_id: int {pk, fk: roles.id}
+  permission_id: int {pk, fk: permissions.id}
+}
+
+user_roles: {
+  user_id: int {pk, fk: users.id}
+  role_id: int {pk, fk: roles.id}
+}
+
+regions: {
+  id: int {pk}
+  name: varchar
+}
+
+customers: {
+  id: int {pk}
+  name: varchar
+  region_id: int {fk: regions.id}
+  contact_person: varchar
+  phone: varchar
+  email: varchar
+}
+
+sales_representatives: {
+  id: int {pk}
+  user_id: int {fk: users.id}
+  name: varchar
+  phone: varchar
+  email: varchar
+}
+
+suppliers: {
+  id: int {pk}
+  name: varchar
+  contact_person: varchar
+  phone: varchar
+  email: varchar
+}
+
+units: {
+  id: int {pk}
+  name: varchar
+}
+
+item_categories: {
+  id: int {pk}
+  name: varchar
+}
+
+items: {
+  id: int {pk}
+  name: varchar
+  category_id: int {fk: item_categories.id}
+  unit_id: int {fk: units.id}
+  description: text
+  is_raw_material: boolean
+  is_finished_product: boolean
+}
+
+bill_of_materials: {
+  id: int {pk}
+  finished_product_id: int {fk: items.id}
+  name: varchar
+  version: varchar
+}
+
+bill_of_material_items: {
+  bom_id: int {pk, fk: bill_of_materials.id}
+  raw_material_id: int {pk, fk: items.id}
+  quantity: decimal
+}
+
+warehouses: {
+  id: int {pk}
+  name: varchar
+  location: varchar
+  is_rep_car_warehouse: boolean
+}
+
+stock_balances: {
+  id: int {pk}
+  warehouse_id: int {fk: warehouses.id}
+  item_id: int {fk: items.id}
+  quantity: decimal
+  min_level: decimal
+  max_level: decimal
+}
+
+stock_movements: {
+  id: int {pk}
+  item_id: int {fk: items.id}
+  from_warehouse_id: int {fk: warehouses.id}
+  to_warehouse_id: int {fk: warehouses.id}
+  quantity: decimal
+  movement_type: varchar
+  movement_date: datetime
+  reference_id: int
+  reference_type: varchar
+  created_by: int {fk: users.id}
+}
+
+sales_plans: {
+  id: int {pk}
+  name: varchar
+  start_date: date
+  end_date: date
+  status: varchar
+  created_by: int {fk: users.id}
+  approved_by: int {fk: users.id}
+  approved_at: datetime
+}
+
+sales_plan_items: {
+  sales_plan_id: int {pk, fk: sales_plans.id}
+  item_id: int {pk, fk: items.id}
+  planned_quantity: decimal
+}
+
+sales_targets: {
+  id: int {pk}
+  sales_rep_id: int {fk: sales_representatives.id}
+  month: date
+  target_amount: decimal
+}
+
+sales_target_items: {
+  sales_target_id: int {pk, fk: sales_targets.id}
+  item_id: int {pk, fk: items.id}
+  target_quantity: decimal
+}
+
+daily_sales_targets: {
+  id: int {pk}
+  sales_rep_id: int {fk: sales_representatives.id}
+  date: date
+  target_quantity: decimal
+  item_id: int {fk: items.id}
+}
+
+sales_invoices: {
+  id: int {pk}
+  customer_id: int {fk: customers.id}
+  sales_rep_id: int {fk: sales_representatives.id}
+  invoice_date: datetime
+  total_amount: decimal
+  status: varchar
+  created_by: int {fk: users.id}
+  approved_by: int {fk: users.id}
+  approved_at: datetime
+}
+
+sales_invoice_items: {
+  sales_invoice_id: int {pk, fk: sales_invoices.id}
+  item_id: int {pk, fk: items.id}
+  quantity: decimal
+  unit_price: decimal
+  total_price: decimal
+}
+
+production_plans: {
+  id: int {pk}
+  name: varchar
+  start_date: date
+  end_date: date
+  status: varchar
+  created_by: int {fk: users.id}
+  approved_by: int {fk: users.id}
+  approved_at: datetime
+}
+
+production_plan_items: {
+  production_plan_id: int {pk, fk: production_plans.id}
+  item_id: int {pk, fk: items.id}
+  planned_quantity: decimal
+}
+
+production_programs: {
+  id: int {pk}
+  production_plan_id: int {fk: production_plans.id}
+  name: varchar
+  start_date: date
+  end_date: date
+  status: varchar
+  created_by: int {fk: users.id}
+  approved_by: int {fk: users.id}
+  approved_at: datetime
+}
+
+production_program_items: {
+  production_program_id: int {pk, fk: production_programs.id}
+  item_id: int {pk, fk: items.id}
+  quantity: decimal
+}
+
+material_requirements: {
+  id: int {pk}
+  production_program_id: int {fk: production_programs.id}
+  item_id: int {fk: items.id}
+  required_quantity: decimal
+  available_quantity: decimal
+  shortage_quantity: decimal
+  status: varchar
+}
+
+material_requirement_items: {
+  material_requirement_id: int {pk, fk: material_requirements.id}
+  raw_material_id: int {pk, fk: items.id}
+  required_quantity: decimal
+}
+
+purchase_plans: {
+  id: int {pk}
+  name: varchar
+  start_date: date
+  end_date: date
+  status: varchar
+  created_by: int {fk: users.id}
+  approved_by: int {fk: users.id}
+  approved_at: datetime
+}
+
+purchase_plan_items: {
+  purchase_plan_id: int {pk, fk: purchase_plans.id}
+  item_id: int {pk, fk: items.id}
+  planned_quantity: decimal
+}
+
+purchase_requests: {
+  id: int {pk}
+  supplier_id: int {fk: suppliers.id}
+  request_date: datetime
+  total_amount: decimal
+  status: varchar
+  created_by: int {fk: users.id}
+  approved_by: int {fk: users.id}
+  approved_at: datetime
+}
+
+purchase_request_items: {
+  purchase_request_id: int {pk, fk: purchase_requests.id}
+  item_id: int {pk, fk: items.id}
+  quantity: decimal
+  unit_price: decimal
+  total_price: decimal
+}
+
+purchase_invoices: {
+  id: int {pk}
+  supplier_id: int {fk: suppliers.id}
+  invoice_date: datetime
+  total_amount: decimal
+  status: varchar
+  created_by: int {fk: users.id}
+  approved_by: int {fk: users.id}
+  approved_at: datetime
+}
+
+purchase_invoice_items: {
+  purchase_invoice_id: int {pk, fk: purchase_invoices.id}
+  item_id: int {pk, fk: items.id}
+  quantity: decimal
+  unit_price: decimal
+  total_price: decimal
+}
+
+goods_receipts: {
+  id: int {pk}
+  purchase_invoice_id: int {fk: purchase_invoices.id}
+  warehouse_id: int {fk: warehouses.id}
+  receipt_date: datetime
+  status: varchar
+  received_by: int {fk: users.id}
+}
+
+goods_receipt_items: {
+  goods_receipt_id: int {pk, fk: goods_receipts.id}
+  item_id: int {pk, fk: items.id}
+  received_quantity: decimal
+}
+
+rep_deliveries: {
+  id: int {pk}
+  sales_rep_id: int {fk: sales_representatives.id}
+  from_warehouse_id: int {fk: warehouses.id}
+  to_warehouse_id: int {fk: warehouses.id}
+  delivery_date: datetime
+  status: varchar
+  created_by: int {fk: users.id}
+}
+
+rep_delivery_items: {
+  rep_delivery_id: int {pk, fk: rep_deliveries.id}
+  item_id: int {pk, fk: items.id}
+  quantity: decimal
+}
+
+approval_requests: {
+  id: int {pk}
+  document_type: varchar
+  document_id: int
+  current_status: varchar
+  requested_by: int {fk: users.id}
+  requested_at: datetime
+  last_updated_at: datetime
+}
+
+approval_steps: {
+  id: int {pk}
+  approval_request_id: int {fk: approval_requests.id}
+  approver_id: int {fk: users.id}
+  status: varchar
+  comments: text
+  approved_at: datetime
+}
+
+users.id <-> user_roles.user_id
+roles.id <-> user_roles.role_id
+roles.id <-> role_permissions.role_id
+permissions.id <-> role_permissions.permission_id
+
+regions.id <-> customers.region_id
+users.id <-> sales_representatives.user_id
+
+item_categories.id <-> items.category_id
+units.id <-> items.unit_id
+
+items.id <-> bill_of_materials.finished_product_id
+bill_of_materials.id <-> bill_of_material_items.bom_id
+items.id <-> bill_of_material_items.raw_material_id
+
+warehouses.id <-> stock_balances.warehouse_id
+items.id <-> stock_balances.item_id
+
+items.id <-> stock_movements.item_id
+warehouses.id <-> stock_movements.from_warehouse_id
+warehouses.id <-> stock_movements.to_warehouse_id
+users.id <-> stock_movements.created_by
+
+users.id <-> sales_plans.created_by
+users.id <-> sales_plans.approved_by
+sales_plans.id <-> sales_plan_items.sales_plan_id
+items.id <-> sales_plan_items.item_id
+
+sales_representatives.id <-> sales_targets.sales_rep_id
+items.id <-> sales_target_items.item_id
+sales_targets.id <-> sales_target_items.sales_target_id
+sales_representatives.id <-> daily_sales_targets.sales_rep_id
+items.id <-> daily_sales_targets.item_id
+
+customers.id <-> sales_invoices.customer_id
+sales_representatives.id <-> sales_invoices.sales_rep_id
+users.id <-> sales_invoices.created_by
+users.id <-> sales_invoices.approved_by
+sales_invoices.id <-> sales_invoice_items.sales_invoice_id
+items.id <-> sales_invoice_items.item_id
+
+users.id <-> production_plans.created_by
+users.id <-> production_plans.approved_by
+production_plans.id <-> production_plan_items.production_plan_id
+items.id <-> production_plan_items.item_id
+
+production_plans.id <-> production_programs.production_plan_id
+users.id <-> production_programs.created_by
+users.id <-> production_programs.approved_by
+production_programs.id <-> production_program_items.production_program_id
+items.id <-> production_program_items.item_id
+
+production_programs.id <-> material_requirements.production_program_id
+items.id <-> material_requirements.item_id
+material_requirements.id <-> material_requirement_items.material_requirement_id
+items.id <-> material_requirement_items.raw_material_id
+
+users.id <-> purchase_plans.created_by
+users.id <-> purchase_plans.approved_by
+purchase_plans.id <-> purchase_plan_items.purchase_plan_id
+items.id <-> purchase_plan_items.item_id
+
+suppliers.id <-> purchase_requests.supplier_id
+users.id <-> purchase_requests.created_by
+users.id <-> purchase_requests.approved_by
+purchase_requests.id <-> purchase_request_items.purchase_request_id
+items.id <-> purchase_request_items.item_id
+
+suppliers.id <-> purchase_invoices.supplier_id
+users.id <-> purchase_invoices.created_by
+users.id <-> purchase_invoices.approved_by
+purchase_invoices.id <-> purchase_invoice_items.purchase_invoice_id
+items.id <-> purchase_invoice_items.item_id
+
+purchase_invoices.id <-> goods_receipts.purchase_invoice_id
+warehouses.id <-> goods_receipts.warehouse_id
+users.id <-> goods_receipts.received_by
+goods_receipts.id <-> goods_receipt_items.goods_receipt_id
+items.id <-> goods_receipt_items.item_id
+
+sales_representatives.id <-> rep_deliveries.sales_rep_id
+warehouses.id <-> rep_deliveries.from_warehouse_id
+warehouses.id <-> rep_deliveries.to_warehouse_id
+users.id <-> rep_deliveries.created_by
+rep_deliveries.id <-> rep_delivery_items.rep_delivery_id
+items.id <-> rep_delivery_items.item_id
+
+users.id <-> approval_requests.requested_by
+approval_requests.id <-> approval_steps.approval_request_id
+users.id <-> approval_steps.approver_id

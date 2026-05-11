@@ -1,0 +1,214 @@
+You are a senior ERP system analyst, software architect, and UI/UX product designer.
+
+I want you to design a complete Phase 1 ERP system based on the attached workflow diagram.
+
+The system is for a manufacturing/distribution business and should cover the full operational cycle:
+
+Sales Planning → Production Planning → Material Requirements → Purchasing → Receiving → Inventory → Delivery to Sales Representatives → Sales Invoices → Management Reports.
+
+The ERP should not be generic. It must be designed specifically according to this workflow.
+
+Main modules required:
+
+1. User Management & Permissions
+- Users
+- Roles
+- Permissions
+- Approval authorities
+- Department-based access
+
+2. Master Data
+- Finished products
+- Raw materials
+- Units
+- Categories
+- Customers
+- Agents
+- Sales representatives
+- Suppliers
+- Regions
+- Warehouses
+- Sales representative car warehouses
+
+3. Sales Module
+- Long-term sales plan
+- Monthly sales plan
+- Emergency sales plan
+- Previous sales rates
+- Monthly sales targets for representatives
+- Daily sales targets
+- Sales invoices
+- Customer/agent linkage
+- Sales representative performance
+
+4. Production Module
+- Long-term production plan
+- Monthly production program
+- Weekly production program
+- Manufacturing models / Bill of Materials
+- Material requirements calculation
+- Production approval workflow
+
+5. Inventory / Warehouse Module
+- Finished goods stock
+- Raw materials stock
+- Representative car stock
+- Stock balances
+- Stock movements
+- Delivery to sales representative
+- Receiving raw materials
+- Minimum and maximum stock levels
+- Stock shortage alerts
+
+6. Purchasing Module
+- Long-term purchase plan
+- Monthly purchase plan
+- Monthly purchase requests
+- Purchase invoices
+- Goods receipt notes
+- Supplier linkage
+- Purchase approval workflow
+
+7. Approval Workflow
+Create a centralized approval system that can be used for:
+- Sales plans
+- Production plans
+- Production programs
+- Purchase plans
+- Purchase requests
+- Goods receipts
+- Sales invoices if needed
+
+Statuses should include:
+- Draft
+- Pending Approval
+- Approved
+- Rejected
+- Cancelled
+- Completed
+
+8. Reports & Dashboards
+Design SQL/reporting dashboards for:
+- Monthly sales
+- Sales by representative
+- Target vs actual sales
+- Finished goods stock
+- Raw material stock
+- Stock shortages
+- Representative car stock
+- Production programs
+- Material requirements
+- Purchase requests
+- Purchase invoices
+- Goods received
+- Management overview dashboard
+
+Important business logic:
+
+- Sales plans can generate production requirements.
+- Production programs use Bill of Materials to calculate raw material needs.
+- Material requirements compare required quantity with available raw material stock.
+- If there is shortage, the system should generate purchase requirements.
+- Purchase requests lead to purchase invoices.
+- Purchase invoices lead to goods receipts.
+- Goods receipts increase raw material stock.
+- Delivery to sales representative moves stock from main warehouse to representative car warehouse.
+- Sales invoices reduce stock from representative car warehouse or finished goods warehouse.
+- No inventory quantity should be changed directly.
+- Every stock change must create a stock movement record.
+- Approved transactions only should affect stock.
+
+Database design:
+
+Please design a clear database schema and ERD including these core entities:
+
+users
+roles
+permissions
+role_permissions
+
+regions
+customers
+sales_representatives
+suppliers
+
+units
+item_categories
+items
+
+bill_of_materials
+bill_of_material_items
+
+warehouses
+stock_balances
+stock_movements
+
+sales_plans
+sales_plan_items
+sales_targets
+sales_target_items
+daily_sales_targets
+sales_invoices
+sales_invoice_items
+
+production_plans
+production_plan_items
+production_programs
+production_program_items
+material_requirements
+material_requirement_items
+
+purchase_plans
+purchase_plan_items
+purchase_requests
+purchase_request_items
+purchase_invoices
+purchase_invoice_items
+goods_receipts
+goods_receipt_items
+
+rep_deliveries
+rep_delivery_items
+
+approval_requests
+approval_steps
+
+Design requirements:
+
+- The system should be a modern web ERP.
+- The interface should support Arabic RTL and English LTR.
+- The UI should be clean, professional, business-oriented, and suitable for managers and employees.
+- Use a dashboard-first design.
+- Each module should have list pages, create/edit pages, detail pages, approval status, filters, and export options.
+- Use clear navigation sidebar grouped by modules.
+- Make the workflow easy for non-technical users.
+- Use color indicators for statuses and stock levels.
+- Include charts and KPI cards for management.
+- Include audit trail and created_by / approved_by tracking.
+
+Preferred technology suggestion:
+You can propose the best stack, but assume the system may be built as:
+- Backend: Laravel or Node.js/NestJS
+- Frontend: React or Vue
+- Database: PostgreSQL or MySQL
+- Reports: SQL Views + PDF/Excel export
+
+Your deliverables:
+
+1. Analyze the attached workflow diagram.
+2. Convert it into ERP modules.
+3. Create a complete system architecture.
+4. Create the database ERD.
+5. Define all main screens.
+6. Define user roles and permissions.
+7. Define the approval workflow.
+8. Define the inventory movement logic.
+9. Define the main reports.
+10. Create a professional UI/UX layout proposal.
+11. Create an MVP implementation roadmap.
+12. Create a Phase 1 development plan.
+13. Suggest improvements or missing components if needed.
+
+Do not create a generic ERP.
+Design the system specifically for the attached workflow.
+Focus on Phase 1 only, but keep the architecture expandable for future phases.

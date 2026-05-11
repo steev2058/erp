@@ -1,0 +1,61 @@
+direction: right
+
+warehouses: {
+  id: int {pk}
+  name: varchar
+  location: varchar
+  is_rep_car_warehouse: boolean
+}
+
+stock_balances: {
+  id: int {pk}
+  warehouse_id: int {fk: warehouses.id}
+  item_id: int {fk: items.id}
+  quantity: decimal
+  min_level: decimal
+  max_level: decimal
+}
+
+stock_movements: {
+  id: int {pk}
+  item_id: int {fk: items.id}
+  from_warehouse_id: int {fk: warehouses.id}
+  to_warehouse_id: int {fk: warehouses.id}
+  quantity: decimal
+  movement_type: varchar
+  movement_date: datetime
+  reference_id: int
+  reference_type: varchar
+  created_by: int {fk: users.id}
+}
+
+rep_deliveries: {
+  id: int {pk}
+  sales_rep_id: int {fk: sales_representatives.id}
+  from_warehouse_id: int {fk: warehouses.id}
+  to_warehouse_id: int {fk: warehouses.id}
+  delivery_date: datetime
+  status: varchar
+  created_by: int {fk: users.id}
+}
+
+rep_delivery_items: {
+  rep_delivery_id: int {pk, fk: rep_deliveries.id}
+  item_id: int {pk, fk: items.id}
+  quantity: decimal
+}
+
+warehouses.id <-> stock_balances.warehouse_id
+items.id <-> stock_balances.item_id
+
+items.id <-> stock_movements.item_id
+warehouses.id <-> stock_movements.from_warehouse_id
+warehouses.id <-> stock_movements.to_warehouse_id
+users.id <-> stock_movements.created_by
+
+sales_representatives.id <-> rep_deliveries.sales_rep_id
+warehouses.id <-> rep_deliveries.from_warehouse_id
+warehouses.id <-> rep_deliveries.to_warehouse_id
+users.id <-> rep_deliveries.created_by
+rep_deliveries.id <-> rep_delivery_items.rep_delivery_id
+items.id <-> rep_delivery_items.item_id

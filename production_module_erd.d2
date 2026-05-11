@@ -1,0 +1,66 @@
+direction: right
+
+production_plans: {
+  id: int {pk}
+  name: varchar
+  start_date: date
+  end_date: date
+  status: varchar
+  created_by: int {fk: users.id}
+  approved_by: int {fk: users.id}
+}
+
+production_plan_items: {
+  production_plan_id: int {pk, fk: production_plans.id}
+  item_id: int {pk, fk: items.id}
+  planned_quantity: decimal
+}
+
+production_programs: {
+  id: int {pk}
+  production_plan_id: int {fk: production_plans.id}
+  name: varchar
+  start_date: date
+  end_date: date
+  status: varchar
+  created_by: int {fk: users.id}
+  approved_by: int {fk: users.id}
+}
+
+production_program_items: {
+  production_program_id: int {pk, fk: production_programs.id}
+  item_id: int {pk, fk: items.id}
+  quantity: decimal
+}
+
+material_requirements: {
+  id: int {pk}
+  production_program_id: int {fk: production_programs.id}
+  item_id: int {fk: items.id}
+  required_quantity: decimal
+  available_quantity: decimal
+  shortage_quantity: decimal
+  status: varchar
+}
+
+material_requirement_items: {
+  material_requirement_id: int {pk, fk: material_requirements.id}
+  raw_material_id: int {pk, fk: items.id}
+  required_quantity: decimal
+}
+
+users.id <-> production_plans.created_by
+users.id <-> production_plans.approved_by
+production_plans.id <-> production_plan_items.production_plan_id
+items.id <-> production_plan_items.item_id
+
+production_plans.id <-> production_programs.production_plan_id
+users.id <-> production_programs.created_by
+users.id <-> production_programs.approved_by
+production_programs.id <-> production_program_items.production_program_id
+items.id <-> production_program_items.item_id
+
+production_programs.id <-> material_requirements.production_program_id
+items.id <-> material_requirements.item_id
+material_requirements.id <-> material_requirement_items.material_requirement_id
+items.id <-> material_requirement_items.raw_material_id

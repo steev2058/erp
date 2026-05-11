@@ -1,0 +1,35 @@
+direction: right
+
+users: {
+  id: int {pk}
+  username: varchar
+  password_hash: varchar
+  email: varchar
+  created_at: datetime
+  updated_at: datetime
+}
+
+roles: {
+  id: int {pk}
+  name: varchar
+}
+
+permissions: {
+  id: int {pk}
+  name: varchar
+}
+
+role_permissions: {
+  role_id: int {pk, fk: roles.id}
+  permission_id: int {pk, fk: permissions.id}
+}
+
+user_roles: {
+  user_id: int {pk, fk: users.id}
+  role_id: int {pk, fk: roles.id}
+}
+
+users.id <-> user_roles.user_id
+roles.id <-> user_roles.role_id
+roles.id <-> role_permissions.role_id
+permissions.id <-> role_permissions.permission_id

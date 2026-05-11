@@ -1,0 +1,56 @@
+direction: right
+
+regions: {
+  id: int {pk}
+  name: varchar
+}
+
+customers: {
+  id: int {pk}
+  name: varchar
+  region_id: int {fk: regions.id}
+  contact_person: varchar
+  phone: varchar
+  email: varchar
+}
+
+sales_representatives: {
+  id: int {pk}
+  user_id: int {fk: users.id}
+  name: varchar
+  phone: varchar
+  email: varchar
+}
+
+suppliers: {
+  id: int {pk}
+  name: varchar
+  contact_person: varchar
+  phone: varchar
+  email: varchar
+}
+
+units: {
+  id: int {pk}
+  name: varchar
+}
+
+item_categories: {
+  id: int {pk}
+  name: varchar
+}
+
+items: {
+  id: int {pk}
+  name: varchar
+  category_id: int {fk: item_categories.id}
+  unit_id: int {fk: units.id}
+  description: text
+  is_raw_material: boolean
+  is_finished_product: boolean
+}
+
+regions.id <-> customers.region_id
+users.id <-> sales_representatives.user_id
+item_categories.id <-> items.category_id
+units.id <-> items.unit_id

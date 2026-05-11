@@ -1,0 +1,75 @@
+direction: right
+
+sales_plans: {
+  id: int {pk}
+  name: varchar
+  start_date: date
+  end_date: date
+  status: varchar
+  created_by: int {fk: users.id}
+  approved_by: int {fk: users.id}
+}
+
+sales_plan_items: {
+  sales_plan_id: int {pk, fk: sales_plans.id}
+  item_id: int {pk, fk: items.id}
+  planned_quantity: decimal
+}
+
+sales_targets: {
+  id: int {pk}
+  sales_rep_id: int {fk: sales_representatives.id}
+  month: date
+  target_amount: decimal
+}
+
+sales_target_items: {
+  sales_target_id: int {pk, fk: sales_targets.id}
+  item_id: int {pk, fk: items.id}
+  target_quantity: decimal
+}
+
+daily_sales_targets: {
+  id: int {pk}
+  sales_rep_id: int {fk: sales_representatives.id}
+  date: date
+  target_quantity: decimal
+  item_id: int {fk: items.id}
+}
+
+sales_invoices: {
+  id: int {pk}
+  customer_id: int {fk: customers.id}
+  sales_rep_id: int {fk: sales_representatives.id}
+  invoice_date: datetime
+  total_amount: decimal
+  status: varchar
+  created_by: int {fk: users.id}
+  approved_by: int {fk: users.id}
+}
+
+sales_invoice_items: {
+  sales_invoice_id: int {pk, fk: sales_invoices.id}
+  item_id: int {pk, fk: items.id}
+  quantity: decimal
+  unit_price: decimal
+  total_price: decimal
+}
+
+users.id <-> sales_plans.created_by
+users.id <-> sales_plans.approved_by
+sales_plans.id <-> sales_plan_items.sales_plan_id
+items.id <-> sales_plan_items.item_id
+
+sales_representatives.id <-> sales_targets.sales_rep_id
+items.id <-> sales_target_items.item_id
+sales_targets.id <-> sales_target_items.sales_target_id
+sales_representatives.id <-> daily_sales_targets.sales_rep_id
+items.id <-> daily_sales_targets.item_id
+
+customers.id <-> sales_invoices.customer_id
+sales_representatives.id <-> sales_invoices.sales_rep_id
+users.id <-> sales_invoices.created_by
+users.id <-> sales_invoices.approved_by
+sales_invoices.id <-> sales_invoice_items.sales_invoice_id
+items.id <-> sales_invoice_items.item_id
