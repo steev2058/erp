@@ -6,6 +6,8 @@
   "main": "dist/server/index.js",
   "scripts": {
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "api:start": "node backend/server.js",
+    "api:dev": "node --watch backend/server.js",
     "dev:server": "tsx watch src/server/index.ts",
     "dev:client": "vite --host",
     "build": "npm run build:server && npm run build:client",
