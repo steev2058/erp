@@ -13,6 +13,7 @@ import Workflows from "./pages/Workflows";
 import Reports from "./pages/Reports";
 import Roadmap from "./pages/Roadmap";
 import RolesPermissions from "./pages/RolesPermissions";
+import ExcelPlans from "./pages/ExcelPlans";
 import { useState, useEffect } from "react";
 
 function Router() {
@@ -26,6 +27,7 @@ function Router() {
       <Route path={"/reports"} component={Reports} />
       <Route path={"/roles-permissions"} component={RolesPermissions} />
       <Route path={"/roadmap"} component={Roadmap} />
+      <Route path={"/excel-plans"} component={ExcelPlans} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

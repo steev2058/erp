@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "wouter";
-import { ArrowRight, Database, Zap, Users, BarChart3, Settings, Workflow, Search, Download } from "lucide-react";
+import { ArrowRight, Database, Zap, Users, BarChart3, Settings, Workflow, Search, Download, Sheet } from "lucide-react";
 import { useState } from "react";
 import { exportPageToPDF } from "@/lib/exportPDF";
 
@@ -56,6 +56,13 @@ export default function Home() {
       icon: BarChart3,
       href: "/reports",
       color: "from-cyan-500 to-cyan-600"
+    },
+    {
+      title: "واجهات الإكسل",
+      description: "خطة البيع الشهرية + الطارئة + خطة التصنيع الشهرية",
+      icon: Sheet,
+      href: "/excel-plans",
+      color: "from-emerald-500 to-emerald-600"
     }
   ];
 
