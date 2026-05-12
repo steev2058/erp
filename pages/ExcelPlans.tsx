@@ -77,8 +77,8 @@ export default function ExcelPlans() {
           </div>
           <div className="flex items-center gap-2">
             <input type="month" value={month} onChange={(e) => setMonth(e.target.value)} className="rounded-md border border-slate-300 px-3 py-2 text-sm" />
-            <Link href="/">
-              <Button variant="outline" size="sm"><ArrowLeft className="ml-2 h-4 w-4" /> الرجوع</Button>
+            <Link href="/docs">
+              <Button variant="outline" size="sm"><ArrowLeft className="ml-2 h-4 w-4" /> التوثيق</Button>
             </Link>
           </div>
         </div>

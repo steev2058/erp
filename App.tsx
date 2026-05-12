@@ -19,7 +19,7 @@ import { useState, useEffect } from "react";
 function Router() {
   return (
     <Switch>
-      <Route path={"/"} component={Home} />
+      <Route path={"/"} component={ExcelPlans} />
       <Route path={"/architecture"} component={Architecture} />
       <Route path={"/modules"} component={Modules} />
       <Route path={"/database"} component={Database} />
@@ -28,6 +28,7 @@ function Router() {
       <Route path={"/roles-permissions"} component={RolesPermissions} />
       <Route path={"/roadmap"} component={Roadmap} />
       <Route path={"/excel-plans"} component={ExcelPlans} />
+      <Route path={"/docs"} component={Home} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
