@@ -38,6 +38,7 @@
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "framer-motion": "^12.23.22",
+    "html2pdf.js": "^0.14.0",
     "jsonwebtoken": "^9.0.3",
     "lucide-react": "^0.453.0",
     "pg": "^8.11.3",
